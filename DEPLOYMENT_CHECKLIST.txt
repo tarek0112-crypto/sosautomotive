@@ -1,0 +1,170 @@
+═══════════════════════════════════════════════════════════════
+   S.O.S AUTOMOTIVE DASHBOARD - RENDER DEPLOYMENT CHECKLIST
+═══════════════════════════════════════════════════════════════
+
+📋 PRE-DEPLOYMENT
+═══════════════════════════════════════════════════════════════
+[ ] Project files in: C:\projects\sos-automotive
+[ ] Render account created: https://render.com
+[ ] GitHub account ready: https://github.com
+[ ] GitHub Desktop installed (optional but recommended)
+
+📤 STEP 1: PUSH TO GITHUB
+═══════════════════════════════════════════════════════════════
+[ ] Open GitHub Desktop
+[ ] Add repository: C:\projects\sos-automotive
+[ ] Publish to GitHub (keep public for free tier)
+[ ] Repository name: sos-automotive-dashboard
+[ ] Verify code is on GitHub
+
+🗄️ STEP 2: CREATE DATABASE
+═══════════════════════════════════════════════════════════════
+[ ] Go to: https://dashboard.render.com
+[ ] Click: New + → PostgreSQL
+[ ] Name: sos-automotive-db
+[ ] Database: sos_automotive_db
+[ ] User: sos_user
+[ ] Instance Type: Free
+[ ] Click: Create Database
+[ ] Wait for: Green "Available" status
+[ ] Copy: Internal Database URL
+    └─ Saved to: _______________________________________
+
+🖥️ STEP 3: DEPLOY BACKEND
+═══════════════════════════════════════════════════════════════
+[ ] Click: New + → Web Service
+[ ] Connect: GitHub repository
+[ ] Repository: sos-automotive-dashboard
+[ ] Name: sos-automotive-backend
+[ ] Root Directory: backend
+[ ] Runtime: Node
+[ ] Build Command: npm install && npx prisma generate && npm run build
+[ ] Start Command: npm start
+[ ] Instance Type: Free
+
+Environment Variables:
+[ ] NODE_ENV = production
+[ ] PORT = 10000
+[ ] DATABASE_URL = [paste from Step 2]
+[ ] JWT_SECRET = [create random secure string]
+[ ] JWT_EXPIRES_IN = 7d
+[ ] BCRYPT_ROUNDS = 12
+[ ] FRONTEND_URL = https://temp.com (update later)
+
+[ ] Click: Create Web Service
+[ ] Wait: 5-10 minutes for deployment
+[ ] Status: Green "Live"
+[ ] Copy backend URL: _______________________________________
+
+🔧 STEP 4: INITIALIZE DATABASE
+═══════════════════════════════════════════════════════════════
+[ ] Go to: Backend service page
+[ ] Click: Shell tab
+[ ] Run: npx prisma generate
+    └─ Wait for: ✓ Generated Prisma Client
+[ ] Run: npx prisma db push
+    └─ Wait for: ✓ Database in sync
+[ ] Run: npm run db:seed
+    └─ Wait for: ✓ Database seeding completed
+
+Verify seed data:
+[ ] ✅ Admin user created
+[ ] ✅ Technician user created
+[ ] ✅ Categories created
+[ ] ✅ Suppliers created
+[ ] ✅ Technicians created
+[ ] ✅ Customers created
+[ ] ✅ Inventory items created
+
+🌐 STEP 5: DEPLOY FRONTEND
+═══════════════════════════════════════════════════════════════
+[ ] Click: New + → Static Site
+[ ] Connect: Same GitHub repository
+[ ] Name: sos-automotive-dashboard
+[ ] Root Directory: (leave empty)
+[ ] Build Command: npm install && npm run build
+[ ] Publish Directory: dist
+
+Environment Variable:
+[ ] VITE_API_URL = [backend URL from Step 3]/api
+    Example: https://sos-automotive-backend.onrender.com/api
+
+[ ] Click: Create Static Site
+[ ] Wait: 5-10 minutes for build
+[ ] Status: Green "Live"
+[ ] Copy frontend URL: _______________________________________
+
+🔄 STEP 6: UPDATE BACKEND CORS
+═══════════════════════════════════════════════════════════════
+[ ] Go to: Backend service
+[ ] Click: Environment tab
+[ ] Find: FRONTEND_URL
+[ ] Update to: [frontend URL from Step 5]
+    Example: https://sos-automotive-dashboard.onrender.com
+[ ] Click: Save
+[ ] Wait: Auto-redeploy completes
+
+✅ STEP 7: TEST APPLICATION
+═══════════════════════════════════════════════════════════════
+[ ] Open: Frontend URL in browser
+[ ] Page loads: No errors
+[ ] Login page: Visible
+
+Test Login:
+[ ] Email: admin@sos.com
+[ ] Password: admin123
+[ ] Click: Login
+[ ] Dashboard: Loads successfully
+
+Test Features:
+[ ] Dashboard: Shows KPIs
+[ ] Customers: List loads
+[ ] Jobs: List loads
+[ ] Inventory: List loads
+[ ] Settings: Opens
+
+🔒 STEP 8: SECURITY
+═══════════════════════════════════════════════════════════════
+[ ] Change admin password immediately
+[ ] Verify JWT_SECRET is strong and random
+[ ] Check HTTPS is enabled (automatic on Render)
+[ ] Enable database backups in database settings
+[ ] Review all environment variables
+
+📊 STEP 9: POST-DEPLOYMENT
+═══════════════════════════════════════════════════════════════
+[ ] Save URLs:
+    Frontend: _______________________________________
+    Backend:  _______________________________________
+    Database: _______________________________________
+
+[ ] Set up monitoring:
+    [ ] Email alerts enabled
+    [ ] Bookmark Render dashboard
+    [ ] Save login credentials securely
+
+[ ] Optional enhancements:
+    [ ] Add custom domain
+    [ ] Set up database backups
+    [ ] Configure auto-deploy on push
+    [ ] Add UptimeRobot to prevent cold starts
+
+═══════════════════════════════════════════════════════════════
+                    🎉 DEPLOYMENT COMPLETE! 🎉
+═══════════════════════════════════════════════════════════════
+
+Your S.O.S Automotive Dashboard is now live and accessible!
+
+Next Steps:
+1. Share the URL with your team
+2. Change default passwords
+3. Add real customer data
+4. Monitor logs for any issues
+5. Set up regular database backups
+
+Need help? Check:
+- RENDER_DEPLOYMENT.md (detailed guide)
+- RENDER_QUICK_START.md (quick reference)
+- Render docs: https://render.com/docs
+
+═══════════════════════════════════════════════════════════════

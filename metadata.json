@@ -1,0 +1,5 @@
+{
+  "name": "S.O.S AUTOMOTIVE Dashboard",
+  "description": "A comprehensive dashboard for an auto repair shop, providing an overview of active jobs, vehicle services, inventory, revenue, customer summaries, appointments, and stock alerts.",
+  "requestFramePermissions": []
+}
